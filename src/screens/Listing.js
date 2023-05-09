@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
 import GetLocation from 'react-native-get-location'
+import { UseGetFetchStop } from '../Api/fetcher';
 
 // import { getLocales } from "react-native-localize";
 
@@ -15,28 +16,29 @@ const Listing = () => {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
 
+  const {stops,isLoading} = UseGetFetchStop();
+
   const filterFetchStop = async() => {
-    await axios.get(`https://data.etabus.gov.hk/v1/transport/kmb/stop`)
-    .then(response => {
-      const filteredStop = response.data.data.filter(
-        (response) => getDistanceFromLatLonInKm(response.lat,response.long,userLatLong.latitude,userLatLong.longitude) <= 0.5)
-      
-        const stops = filteredStop.map((stop) => stop.stop);
-        setStop(stops);
-        // console.log(stops)
-        
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  }
+    console.log(isLoading)
+    if(!isLoading){
+        // setStop(stops);
+        console.log(stops)
+      }
+    }
+  
 
     const fetchData = async () => {
+      try{
       const requests = stop.map(stopId => axios.get(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`));
       const responses = await Promise.all(requests);
       const responseData = responses.map(response => response.data.data);
       const mergedData = responseData.flat(); // merge data from both bus stops into a single array
       setData(mergedData);
+      }
+      catch(error){
+        console.log(error)
+        console.log("2")
+      }
     }
 
     function formatEtaDate(dateString,remark) {

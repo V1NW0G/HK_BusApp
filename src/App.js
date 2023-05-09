@@ -5,6 +5,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ListScreen from './screens/Listing';
 import DetailScreen from './screens/Details';
 import SearchScreen from './screens/Search';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 // import './locales/index';
 // import {useTranslation} from 'react-i18next';
@@ -12,6 +16,7 @@ import SearchScreen from './screens/Search';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const queryClient = new QueryClient()
 // const {t} = useTranslation();
 
 function HomeStack() {
@@ -26,10 +31,12 @@ function HomeStack() {
 function App() {
   return (
     <NavigationContainer>
+      <QueryClientProvider client={queryClient}>
       <Tab.Navigator>
         <Tab.Screen options={{headerShown: false}} name="主頁" component={HomeStack} />
         <Tab.Screen name="搜尋" component={SearchScreen} />
       </Tab.Navigator>
+      </QueryClientProvider>
     </NavigationContainer>
   );
 }
