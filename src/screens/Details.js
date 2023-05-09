@@ -124,9 +124,9 @@ const Detail = ({ route }) => {
         <Text style={styles.topTittle2}> 往</Text>
         <Text style={styles.topTittle}>{destination}</Text>
       </View>
-      <MapView style={{ height: 300, width: "100%" }} region={{ latitude: parseFloat(busGeo.lat), longitude: parseFloat(busGeo.long), latitudeDelta: 0.002, longitudeDelta: 0.021 }}>
+      <MapView style={{ height: 300, width: "100%" }} region={{ latitude: busGeo.lat, longitude: busGeo.long, latitudeDelta: 0.002, longitudeDelta: 0.021 }}>
         <Marker 
-          coordinate={{ latitude: parseFloat(busGeo.lat), longitude: parseFloat(busGeo.long) }}
+          coordinate={{ latitude: busGeo.lat, longitude: busGeo.long }}
         />
       </MapView>
 
