@@ -74,9 +74,10 @@ const Listing = () => {
   const getGeolocation = () =>{
     GetLocation.getCurrentPosition({
       enableHighAccuracy: true,
-      timeout: 600,
+      timeout: 6000,
     })
     .then(location => {
+      // console.log(location)
       const {latitude, longitude} = location;
       setUserLatLong({latitude, longitude});
       console.log(userLatLong)
@@ -109,8 +110,8 @@ const Listing = () => {
   }
 
   useEffect(() => {
-    filterFetchStop();
-    getGeolocation();
+    getGeolocation(); 
+    filterFetchStop();   
     fetchData();
   }, [refreshing]);
 
