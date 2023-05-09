@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Linking, ScrollView, R
 import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
+
 // import { getLocales } from "react-native-localize";
 
 const Listing = () => {
@@ -14,7 +15,6 @@ const Listing = () => {
 
     const fetchData = async () => {
       const requests = stop.map(stopId => axios.get(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`));
-      console.log(requests)
       const responses = await Promise.all(requests);
       const responseData = responses.map(response => response.data.data);
       const mergedData = responseData.flat(); // merge data from both bus stops into a single array
@@ -119,18 +119,18 @@ const styles = StyleSheet.create({
     },
 
     routeText: {
-      fontSize: "20",
+      fontSize: 20,
       fontWeight: "bold"
     },
 
     destText: {
-      fontSize: "20",
+      fontSize: 20,
       paddingLeft: 40
 
     },
 
     etaText: {
-      fontSize: "20",
+      fontSize: 20,
       paddingLeft: 50
     }
 
