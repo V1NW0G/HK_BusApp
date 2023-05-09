@@ -48,7 +48,7 @@ Also please choose an Android simulator have Google Play service, or you might n
 npx react-native run-android	//for android
 npx react-native run-ios	//For iOS
 ```
-There might be some axios network bug on First page, you might simply ctrl + s the page to refresh it.
+There might be some axios network bug on First page, you might simply ctrl + s the code page/pull down the mobile listing page to refresh it.
 </br></br>
 
 ### Discussion
