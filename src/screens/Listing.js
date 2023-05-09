@@ -32,11 +32,16 @@ const Listing = () => {
   }
 
     const fetchData = async () => {
+      try{
       const requests = stop.map(stopId => axios.get(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`));
       const responses = await Promise.all(requests);
       const responseData = responses.map(response => response.data.data);
       const mergedData = responseData.flat(); // merge data from both bus stops into a single array
       setData(mergedData);
+      }
+      catch(error){
+        console.log(error)
+      }
     }
 
     function formatEtaDate(dateString,remark) {
