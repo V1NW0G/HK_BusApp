@@ -6,7 +6,7 @@ const filterFetchStop = async() => {
     const filteredStop = response.data.data.filter(
         (response) => getDistanceFromLatLonInKm(response.lat,response.long,userLatLong.latitude,userLatLong.longitude) <= 0.5)
     const stops = filteredStop.map((stop) => stop.stop);
-    console.log(stops)
+    console.log("entered query")
     return stops
 }
 

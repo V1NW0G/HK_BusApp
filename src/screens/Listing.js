@@ -19,7 +19,6 @@ const Listing = () => {
   const {stops,isLoading} = UseGetFetchStop();
 
   const filterFetchStop = async() => {
-    console.log(isLoading)
     if(!isLoading){
         // setStop(stops);
         console.log(stops)
