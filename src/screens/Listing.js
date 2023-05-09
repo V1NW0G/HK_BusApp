@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Linking, ScrollView, RefreshControl} from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Linking, ScrollView, RefreshControl, FlatList} from 'react-native';
 import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
@@ -119,42 +119,36 @@ const Listing = () => {
 
   return (
     <View style={styles.container}>
-        
-        <ScrollView
-        contentContainerStyle={styles.scrollView}
+    <FlatList
+        data={data}
+        keyExtractor={(item, index) => index.toString()}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
-            
-            {data.map(item => (
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        renderItem={({ item }) => (
+            item.eta_seq === 1 && (
                 <TouchableOpacity 
                     activeOpacity={0.8}
-                
                     onPress={() => navigation.navigate("Detail", { 
                         route: item.route,
                         serviceType: item.service_type,
                         stopId: "BFA3460955AC820C",
                         bound: item.dir,
                         destination: item.dest_tc
-                    })}>
-                      
-              
-                    {item.eta_seq === 1 && (
+                    })}
+                >
                     <View style={styles.itemContainer}>
                         <Text style={styles.routeText}>{item.route}</Text>
                         <Text style={styles.destText}>{item.dest_tc}</Text>
-                        
                         <Text style={styles.etaText}>{formatEtaDate(item.eta,item.rmk_tc)}</Text>
                         <Text> </Text>
                     </View>
-                    )}
                 </TouchableOpacity>
-            ))}
-            
-        </ScrollView>
-       
+                    )
+                )}
+            />
+        </View>
 
-    </View>
   );
 };
 
