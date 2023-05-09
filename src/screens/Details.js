@@ -5,6 +5,7 @@ import MapView, { Marker } from 'react-native-maps';
 import moment from "moment";
 
 const Detail = ({ route }) => {
+  const isIOS = Platform.OS === 'ios';
   const { route: routeName, serviceType, stopId, bound , destination} = route.params;
   const [time, setTime] = useState([]);
   const [busGeo, setBusGeo] = useState({ lat: "", long: "" });
@@ -124,9 +125,9 @@ const Detail = ({ route }) => {
         <Text style={styles.topTittle2}> 往</Text>
         <Text style={styles.topTittle}>{destination}</Text>
       </View>
-      <MapView style={{ height: 300, width: "100%" }} region={{ latitude: busGeo.lat, longitude: busGeo.long, latitudeDelta: 0.002, longitudeDelta: 0.021 }}>
+      <MapView style={{ height: 300, width: "100%" }} region={{ latitude: isIOS ? busGeo.lat : parseFloat(busGeo.lat), longitude: isIOS ? busGeo.long : parseFloat(busGeo.long), latitudeDelta: 0.002, longitudeDelta: 0.021 }}>
         <Marker 
-          coordinate={{ latitude: busGeo.lat, longitude: busGeo.long }}
+          coordinate={{ latitude: isIOS ? busGeo.lat : parseFloat(busGeo.lat), longitude: isIOS ? busGeo.long : parseFloat(busGeo.long) }}
         />
       </MapView>
 
