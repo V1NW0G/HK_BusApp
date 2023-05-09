@@ -6,9 +6,13 @@ import ListScreen from './screens/Listing';
 import DetailScreen from './screens/Details';
 import SearchScreen from './screens/Search';
 
+// import './locales/index';
+// import {useTranslation} from 'react-i18next';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+// const {t} = useTranslation();
 
 function HomeStack() {
   return (
@@ -23,14 +27,8 @@ function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen options={{headerShown: false}} name="Home" component={HomeStack} />
-        <Tab.Screen options={{
-          tabBarLabel: '搜尋',
-          // tabBarIcon: ({ color, size }) => (
-          //   <MaterialCommunityIcons name="account" color={color} size={size} />
-          // ),
-        }} 
-        name="Search" component={SearchScreen} />
+        <Tab.Screen options={{headerShown: false}} name="主頁" component={HomeStack} />
+        <Tab.Screen name="搜尋" component={SearchScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

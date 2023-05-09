@@ -3,15 +3,33 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Linking, ScrollView, R
 import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
+import GetLocation from 'react-native-get-location'
 
 // import { getLocales } from "react-native-localize";
 
 const Listing = () => {
+  const [userLatLong, setUserLatLong] = useState(null)
   const [stop, setStop] = useState(["BFA3460955AC820C","5FB1FCAF80F3D97D"]);
+  const [stopJson, setStopJson] = useState(null);
   const [data,setData] = useState([]);
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
 
+  const filterFetchStop = async() => {
+    await axios.get(`https://data.etabus.gov.hk/v1/transport/kmb/stop`)
+    .then(response => {
+      const filteredStop = response.data.data.filter(
+        (response) => getDistanceFromLatLonInKm(response.lat,response.long,userLatLong.latitude,userLatLong.longitude) <= 0.5)
+      
+        const stops = filteredStop.map((stop) => stop.stop);
+        setStop(stops);
+        // console.log(stops)
+        
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
 
     const fetchData = async () => {
       const requests = stop.map(stopId => axios.get(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`));
@@ -52,10 +70,48 @@ const Listing = () => {
     }, 2000);
   }, []);
 
+  //get user Location
+  const getGeolocation = () =>{
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 600,
+    })
+    .then(location => {
+      const {latitude, longitude} = location;
+      setUserLatLong({latitude, longitude});
+      console.log(userLatLong)
+    })
+    .catch(error => {
+      const { code, message } = error;
+      console.warn(code, message);
+    })
+
+  }
+
+  //count user to stop distance
+  function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1); 
+    var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    // console.log(d)
+    return d;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
 
   useEffect(() => {
+    filterFetchStop();
+    getGeolocation();
     fetchData();
-    console.log(data);
   }, [refreshing]);
 
 
@@ -81,7 +137,7 @@ const Listing = () => {
                         destination: item.dest_tc
                     })}>
                       
-                    {/* filter result shown only one by nearest time */}
+              
                     {item.eta_seq === 1 && (
                     <View style={styles.itemContainer}>
                         <Text style={styles.routeText}>{item.route}</Text>
@@ -93,6 +149,7 @@ const Listing = () => {
                     )}
                 </TouchableOpacity>
             ))}
+            
         </ScrollView>
        
 

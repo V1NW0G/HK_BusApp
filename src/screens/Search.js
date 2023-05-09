@@ -3,6 +3,7 @@ import { View, TextInput, FlatList, Text, StyleSheet, TouchableOpacity} from 're
 import { useNavigation } from "@react-navigation/native";
 import axios from 'axios';
 
+
 function SearchScreen() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -21,7 +22,7 @@ function SearchScreen() {
     });
   }
 
-  //searching with number or destination
+  //searching with route or destination
   const handleSearch = text => {
     setQuery(text);
 
@@ -46,7 +47,7 @@ function SearchScreen() {
     <View style={styles.container}>
       <TextInput
         style={{ width:"95%",height: 45, borderColor: 'lightgray', borderWidth: 1, padding: 10, borderRadius:10, alignSelf:"center"}}
-        placeholder="搜尋..."
+        placeholder="輸入路線或目的地..."
         value={query}
         onChangeText={handleSearch}
       />
