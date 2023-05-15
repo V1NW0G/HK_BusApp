@@ -11,7 +11,6 @@ const Detail = ({ route }) => {
   const [busGeo, setBusGeo] = useState({ lat: "", long: "" });
   const [busStopJson, setBusStopJson] = useState([]);
   const [busStopInfoJson, setBusStopInfoJson] = useState([]);
-  const [coordinates, setCoordinates] = useState([]);
   const [selectedStop, setSelectedStop] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -200,6 +199,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     fontSize: 20,
+    color: "black"
   },
 
   timeContainer: {
@@ -210,12 +210,13 @@ const styles = StyleSheet.create({
 
   timeText: {
     fontSize: 18,
-    color: "blue"
+    color: "#61c0ff"
   },
 
   timeMinsText: {
     fontSize: 11,
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
+    color: "black"
   },
 
   timeRemarkText: {
@@ -235,11 +236,13 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingTop:5,
     paddingBottom:5,
+    color: "black"
   },
 
   topTittle2: { 
     fontSize: 14,
-    alignSelf: "center"
+    alignSelf: "center",
+    color: "black"
   },
 
 });

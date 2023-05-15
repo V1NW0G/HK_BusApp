@@ -48,6 +48,8 @@ function SearchScreen() {
       <TextInput
         style={{ width:"95%",height: 45, borderColor: 'lightgray', borderWidth: 1, padding: 10, borderRadius:10, alignSelf:"center"}}
         placeholder="輸入路線或目的地..."
+        placeholderTextColor={"#a39b9b"}
+        color={"black"}
         value={query}
         onChangeText={handleSearch}
       />
@@ -100,12 +102,14 @@ const styles = StyleSheet.create({
     routeText: {
       fontSize: 18,
       fontWeight: "bold",
-      paddingRight: 50
+      paddingRight: 50,
+      color: "black"
     },
 
     destText: {
       fontSize: 18,
-      paddingRight: 10
+      paddingRight: 10,
+      color: "black"
     },
 
     disText: {

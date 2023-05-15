@@ -33,15 +33,15 @@ const Listing = () => {
 
     const fetchData = async () => {
       try{
-      const requests = stop.map(stopId => axios.get(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`));
-      const responses = await Promise.all(requests);
-      const responseData = responses.map(response => response.data.data);
-      const mergedData = responseData.flat(); // merge data from both bus stops into a single array
-      setData(mergedData);
-      }
-      catch(error){
+        const requests = stop.map(stopId => axios.get(`https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`));
+        const responses = await Promise.all(requests);
+        const responseData = responses.map(response => response.data.data);
+        const mergedData = responseData.flat(); // merge data from both bus stops into a single array
+        setData(mergedData);
+      }catch(error){
         console.log(error)
       }
+      
     }
 
     function formatEtaDate(dateString,remark) {
@@ -91,7 +91,6 @@ const Listing = () => {
       const { code, message } = error;
       console.warn(code, message);
     })
-
   }
 
   //count user to stop distance
@@ -119,6 +118,11 @@ const Listing = () => {
     filterFetchStop();   
     fetchData();
   }, [refreshing]);
+
+  useEffect(() => { 
+    fetchData();
+  }, [stop]);
+
 
 
 
@@ -177,18 +181,20 @@ const styles = StyleSheet.create({
 
     routeText: {
       fontSize: 20,
-      fontWeight: "bold"
+      fontWeight: "bold",
+      color: "black"
     },
 
     destText: {
       fontSize: 20,
-      paddingLeft: 40
-
+      paddingLeft: 40,
+      color: "black"
     },
 
     etaText: {
       fontSize: 20,
-      paddingLeft: 50
+      paddingLeft: 50,
+      color: "black"
     }
 
 
